@@ -1,49 +1,36 @@
-#  Laravel-vue
-
-!["Dashboard Vue.js Presentation"](https://github.com/AntonKJ/laravel-vue/blob/main/scrin-2022-03-28_19-58.png)
-
-Dashboard template дизайн из Figma (выгрузил местным гениратором кода)
-
- https://www.figma.com/file/B7lZ78uVTP5xflPYL3Asmt/Dashboard-Advanced?node-id=0%3A1
+#  symfony-7.2-phoneRegister
 
 Установка выполнить docker-compose up -d из первой (корневой)
 
-http://0.0.0.0/home
-http://0.0.0.0:8765 - PHPMyAdmin
+http://0.0.0.0/api/login?phone=89857921963&code=3055
+http://0.0.0.0:15432/ - pgAdmin
 ```
-MYSQL_ROOT_PASSWORD: rootpwd6421
+Все подключения в .env
 ```
 Установка db mysql из корневой папки проекта, миграции есть 
 ```
 cat laravelvue.sql | docker exec -it lara-vue-mariadb /usr/bin/mysql -u root --password=rootpwd6421 laravelvue
 ```
 ```
-docker exec -it laravel-vue-app su
-cd home/LaravelVue/
+docker exec -it Kobezev-A-symfony-phone-register-php su
+cd /home/phoneRegister/symfony/phoneRegister
 composer install
 ```
-код проекта в src/LaravelVue/
-
-Корневая дирректория проекта
- 
-https://github.com/AntonKJ/laravel-vue/tree/main/src/LaravelVue
-
-выполнить в контейнере
 
 #==================#END#==================#
 #  ERRORS
 #if not PDO Driver
 ```
 docker exec -it php su
-docker-php-ext-install pdo_mysql
+docker-php-ext-install pdo_pgsql
 ```
 
-       /usr/local/bin/docker-php-ext-install pdo pdo_mysql
-       /usr/local/bin/docker-php-ext-install -j5 gd mbstring mysqli pdo pdo_mysql shmop
+       /usr/local/bin/docker-php-ext-install pdo pdo_pgsql
+       /usr/local/bin/docker-php-ext-install -j5 gd mbstring mysqli pdo pdo_pgsql shmop
 
 #or
 ```
-docker-compose exec php docker-php-ext-install pdo_mysql
+docker-compose exec php docker-php-ext-install pdo_pgsql
 docker-compose exec php docker-php-ext-install intl
 ```
 ```
