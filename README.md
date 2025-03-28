@@ -2,15 +2,12 @@
 
 Установка выполнить docker-compose up -d из первой (корневой)
 
-http://0.0.0.0/api/login?phone=89857921963&code=3055
+http://0.0.0.0/api/login
 http://0.0.0.0:15432/ - pgAdmin
 ```
 Все подключения в .env
 ```
-Установка db mysql из корневой папки проекта, миграции есть 
-```
-cat laravelvue.sql | docker exec -it lara-vue-mariadb /usr/bin/mysql -u root --password=rootpwd6421 laravelvue
-```
+Таблицы в bd_tables данные в csv
 ```
 docker exec -it Kobezev-A-symfony-phone-register-php su
 cd /home/phoneRegister/symfony/phoneRegister
@@ -69,3 +66,5 @@ apt-get update && \
     && docker-php-ext-install gd
 ```
 RESTART DOCKER AFTER INSTALL EXTS!
+
+
