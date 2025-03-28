@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  app:
+    container_name: Kobezev-A-symfony-phone-register
+    build: ./
+    volumes:
+      - ./src/phoneRegister:/home/phoneRegister
+    depends_on:
+      - postgres
+      
+  nginx:
+    container_name: Kobezev-A-symfony-phone-register-nginx
+    image: nginx:1.13
+    ports:
+      - 80:80
+    volumes:
+      - ./src/phoneRegister:/home/phoneRegister
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+
+  php:
+    container_name: Kobezev-A-symfony-phone-register-php
+    image: php:8.2-fpm
+    volumes:
+      - ./src/phoneRegister:/home/phoneRegister
+      - ./phpini/php-ini/php.ini:/usr/local/etc/php/conf.d/php.ini
+  
+  postgres:
+    container_name: Kobezev-A-symfony-phone-register-postgres
+    image: 'postgres:latest'
+    restart: always
+    env_file:
+      - ./src/phoneRegister/symfony/phoneRegister/.env
+    #environment:
+    #  POSTGRES_PASSWORD: postgres
+    #  POSTGRES_USER: postgres
+    #volumes:
+    #  - postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: Kobezev-A-symfony-phone-register-pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - 15432:80
+    #volumes:
+    #  - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+      
+  redis:
+    container_name: Kobezev-A-symfony-phone-register-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/data
+    restart: always
+
+ 
