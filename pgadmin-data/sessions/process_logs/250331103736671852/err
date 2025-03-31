@@ -1,0 +1,4 @@
+250331103737060812,ERROR:  missing data for column "phone"
+
+250331103737060973,CONTEXT:  COPY users, line 2: "0,0,"anton-website@mail.ru","bE1004C87f509EeFCc8DBa8b53D7a2A6",NULL"
+

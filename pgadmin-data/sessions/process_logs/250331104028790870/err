@@ -1,0 +1,4 @@
+250331104029156820,ERROR:  invalid input syntax for type numeric: ""
+
+250331104029157021,CONTEXT:  COPY users, line 3, column phone: ""
+

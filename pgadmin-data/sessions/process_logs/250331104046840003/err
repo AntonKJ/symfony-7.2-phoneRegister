@@ -1,0 +1,4 @@
+250331104047216740,ERROR:  extra data after last expected column
+
+250331104047216889,CONTEXT:  COPY users, line 2: "0,0,"anton-website@mail.ru","bE1004C87f509EeFCc8DBa8b53D7a2A6",NULL,"89857921963""
+

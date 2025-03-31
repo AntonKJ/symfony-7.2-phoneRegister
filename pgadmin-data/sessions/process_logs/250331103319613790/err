@@ -1,0 +1,4 @@
+250331103320031105,ERROR:  invalid input syntax for type integer: "id"
+
+250331103320031361,CONTEXT:  COPY codes, line 1, column id: "id"
+
