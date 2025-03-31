@@ -23,9 +23,9 @@ class ApiLoginController extends AbstractController
         
         // $phone = $json->phone;
         $phone = $request->query->get('phone');
-        $code = is_numeric($request->query->get('code')) ? random_int(1000, 9999) : $request->query->get('code');
+        $code = !is_numeric($request->query->get('code')) ? random_int(1000, 9999) : $request->query->get('code');
         
-        $data = date('Y-m-d H:i', strtotime("+1 min"));
+        $date = date('Y-m-d H:i', strtotime("+1 min"));
         
         if ($phone) {
             
@@ -36,9 +36,9 @@ class ApiLoginController extends AbstractController
                 if ($users[0]['id']) {
 
                     if (!isset($code_[0]['user_id'])) {
-                        $sql = "INSERT INTO codes ( id, code, user_id, datetime) VALUES ( 0 ,{$code}, '{$users[0]['id']}', '{$data}')";
+                        $sql = "INSERT INTO codes ( id, code, user_id, datetime) VALUES ( 0 ,{$code}, '{$users[0]['id']}', '{$date}')";
                     } else {
-                        $sql = "UPDATE codes SET code = '{$code}', datetime = '{$data}' WHERE user_id = '{$users[0]['id']}'";    
+                        $sql = "UPDATE codes SET code = '{$code}', datetime = '{$date}' WHERE user_id = '{$users[0]['id']}'";    
                     }
 
                     $connection->prepare($sql)->execute();
