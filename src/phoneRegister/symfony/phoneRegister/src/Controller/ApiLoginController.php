@@ -50,8 +50,8 @@ class ApiLoginController extends AbstractController
                         $code = random_int(1000, 9999);
                         if ($code_[0]['upd_count']+1 > 3 ){
                             $sql = "UPDATE codes SET code = '{$code}', datetime = '{$data}',block_time = '". ( date('Y-m-d H:i', strtotime('+1 hour')) ) ."' WHERE user_id = '{$users[0]['id']}'";
-                        } esle {
-                            $sql = "UPDATE codes SET code = '{$code}', datetime = '{$data}',upd_count = '{$code_[0][upd_count]+1}' WHERE user_id = '{$users[0]['id']}'";   
+                        } else {
+                            $sql = "UPDATE codes SET code = '{$code}', datetime = '{$data}',upd_count = '{($code_[0][upd_count]+1)}' WHERE user_id = '{$users[0]['id']}'";   
                         } 
 
                     }
@@ -60,7 +60,7 @@ class ApiLoginController extends AbstractController
 
                 } else {
                     return $this->json([
-                        'message' => 'Phone number not in DB',
+                        'message' => 'Phone number not exist in DB',
                     ], Response::HTTP_UNAUTHORIZED);
                 }
             } else {
