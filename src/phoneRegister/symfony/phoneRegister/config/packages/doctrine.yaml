@@ -1,0 +1,33 @@
+framework:
+    cache:
+        pools:
+            doctrine.result_cache_pool:
+                adapter: cache.app
+            doctrine.system_cache_pool:
+                adapter: cache.system
+        
+doctrine:
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        auto_mapping: true
+    dbal:
+        default_connection:       default
+        connections:
+            default:
+                dbname:           '%env(POSTGRES_DB)%'
+                user:             '%env(POSTGRES_USER)%'
+                password:         '%env(POSTGRES_PASSWORD)%'
+                port:             5432
+                driver:           pdo_pgsql
+
+                host:             postgres
+                server_version:   '8.0.37'
+            customer:
+                dbname:           '%env(POSTGRES_DB)%'
+                user:             '%env(POSTGRES_USER)%'
+                password:         '%env(POSTGRES_PASSWORD)%'
+                port:             5432
+                driver:           pdo_pgsql
+                host:             postgres
+                server_version:   '8.2.0'
+
