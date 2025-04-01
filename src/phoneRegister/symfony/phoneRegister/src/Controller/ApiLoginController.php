@@ -19,11 +19,23 @@ class ApiLoginController extends AbstractController
     {
         
         $request = Request::createFromGlobals();
-        $json = $request->query->get('json');
+        $json = json_decode($request->getContent());  // $request->query->get('phone');
         
-        // $phone = $json->phone;
-        $phone = $request->query->get('phone');
-        $code = !is_numeric($request->query->get('code')) ? random_int(1000, 9999) : $request->query->get('code');
+
+        
+        $phone = $json->phone; // $request->query->get('phone'); $request->query->get('code')
+        $code = !is_numeric($json->code) ? random_int(1000, 9999) : $json->code;
+        
+        if (!is_numeric($json->code) && $this->number_validate($json->phone)) {
+            
+            // code sended to user phone 
+            // $this->sendSMS($phone,$code);
+            
+            return $this->json([
+                        'message' => 'System Creates new code and send sms to your phone, you must sended code and phone  back with API',
+                        //'code' => $code
+                    ], Response::HTTP_ACCEPTED);
+        }
         
         $date = date('Y-m-d H:i', strtotime("+1 min"));
         
@@ -34,6 +46,22 @@ class ApiLoginController extends AbstractController
             // var_dump();
             if ($code_[0]['block_time'] == null || $code_[0]['block_time'] < date('Y-m-d H:i')) {
                 if ($users[0]['id']) {
+                    
+                    if ($code_[0]['code'] == $code) {
+                        
+                        /** User authorisided
+                        // some
+                            // action
+                            // after comparison
+                         * 
+                         */
+                        
+                        return $this->json([
+                            'message' => 'Welcome to your authorized!',
+                            'code' => $code,
+                            'phone' => $users[0]['phone']
+                        ]);
+                    }
 
                     if (!isset($code_[0]['user_id'])) {
                         $sql = "INSERT INTO codes ( id, code, user_id, datetime) VALUES ( 0 ,{$code}, '{$users[0]['id']}', '{$date}')";
@@ -44,7 +72,8 @@ class ApiLoginController extends AbstractController
                     $connection->prepare($sql)->execute();
 
                     if (date('Y-m-d H:i') < $code_[0]['datetime']) {
-                        $code = $request->query->get('code');
+                        //$code = $request->query->get('code');
+                        
                     } else {
 
                         $code = random_int(1000, 9999);
@@ -72,16 +101,13 @@ class ApiLoginController extends AbstractController
             
         } else {
             return $this->json([
-                'message' => 'Sended you phone number',
+                'message' => 'You must send you number',
             ], Response::HTTP_UNAUTHORIZED);
         }
         
         //var_dump(date('Y-m-d H:i') > $data);
-
         //var_dump($phone);
-     
-        echo '<pre>';
-        var_dump($users);
+
         
         //if (null === $user) {
         //    return $this->json([
@@ -89,10 +115,22 @@ class ApiLoginController extends AbstractController
         //    ], Response::HTTP_UNAUTHORIZED);
         //}
         
-        return $this->json([
-            'message' => 'Welcome to your authorized!',
-            'code' => $code,
-            'phone' => $users[0]['phone']
-        ]);
+    }
+    
+    function number_validate($phone) {
+        // Удаляем все не символы кроме цифр
+        $phone = preg_replace('/\D/', '', $phone);
+
+        // Номер должен начинается на цифру 7
+        if (substr($phone, 0, 1) !== '7') {
+          return false;
+        }
+
+        // Длиной 10 символов
+        if (strlen($phone) !== 10) {
+          return false;
+        }
+  
+        return true;
     }
 }
