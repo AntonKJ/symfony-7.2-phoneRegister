@@ -40,7 +40,7 @@ class ApiLoginController extends AbstractController
             // $this->sendSMS($phone,$code);
             
             return $this->json([
-                        'message' => 'System Creates new code and send sms to your phone, you must sended code and phone  back with API',
+                        'message' => 'System Creates new code and send sms to your phone, you must send code and phone  back with API',
                         //'code' => $code
                     ], Response::HTTP_ACCEPTED);
         }
