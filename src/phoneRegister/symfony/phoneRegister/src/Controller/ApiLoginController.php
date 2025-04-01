@@ -23,8 +23,16 @@ class ApiLoginController extends AbstractController
         
 
         
-        $phone = $json->phone; // $request->query->get('phone'); $request->query->get('code')
-        $code = !is_numeric($json->code) ? random_int(1000, 9999) : $json->code;
+        $phone = isset($json->phone) ? $json->phone : false; // $request->query->get('phone'); $request->query->get('code')
+        
+        if (isset($json->phone)) {
+            $code = (!isset($json->code) || !is_numeric($json->code)) && (isset($json->phone) && $this->number_validate($json->phone)) ? random_int(1000, 9999) : ($json->code ? $json->code : false) ; 
+        }
+        if (!isset($code) || !$code) {
+            return $this->json([
+                'message' => 'You must send you number',
+            ], Response::HTTP_UNAUTHORIZED);;
+        }
         
         if (!is_numeric($json->code) && $this->number_validate($json->phone)) {
             
