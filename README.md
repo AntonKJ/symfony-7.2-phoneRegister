@@ -2,12 +2,14 @@
 
 Установка выполнить docker-compose up -d из первой (корневой)
 
+```
 http://0.0.0.0/api/login
     in body 
         {
             "phone":"89754921963",
             "code":"8255"
         }
+```
 ```
 http://0.0.0.0:15432/ - pgAdmin
 ```
